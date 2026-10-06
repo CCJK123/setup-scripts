@@ -136,6 +136,8 @@ function Main {
     # Espanso
     Install-WinGetPackage 'Espanso.Espanso'
     # TODO: Handle configuration
+    # Note: Might need to kill running espansod.exe processes (if any) before install for install to
+    #       work, then relaunch it after to get it running again
 
     # Steam
     Install-WinGetPackage 'Valve.Steam'
