@@ -10,8 +10,8 @@ function Refresh-SessionPath {
     .SYNOPSIS
     Refreshes the current session PATH to reflect any system PATH changes.
     #>
-    $env:Path = [Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' +
-        [Environment]::GetEnvironmentVariable('Path', 'User')
+    $env:Path = ([Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' +
+        [Environment]::GetEnvironmentVariable('Path', 'User'))
 }
 
 function Install-WinGetPackage {
