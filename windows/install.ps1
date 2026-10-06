@@ -98,10 +98,10 @@ function Main {
 
     For more info see https://github.com/microsoft/winget-pkgs/issues/369735.
 
-    Also, though I didn't do so here, you can optionally pass in custom additional arguments to the
-    installer via the '-Custom' parameter, to override the default installation options and
-    configure stuff like the default editor Git shd use. The full list of valid installer options
-    can be found at https://gitforwindows.org/silent-or-unattended-installation.
+    Also, custom additional arguments are passed to the installer via the '-Custom' parameter, to
+    override the default installation options and configure stuff like the default branch name to
+    use when creating a new repository. The full list of valid installer options that can be used
+    to customise Git can be found at https://gitforwindows.org/silent-or-unattended-installation.
 
     In my case, since I use Zed, and it's not one of the inbuilt options for default editors, I opt
     to configure it via the `git config` command instead, since otherwise using the installer to set
@@ -109,7 +109,18 @@ function Main {
     (i.e. system-wide) instead of the global level (i.e. per-user), which doesn't make sense for Zed
     since it's installed per-user.
     #>
-    Install-WinGetPackage 'Git.Git' -Scope 'machine' # -Custom ''
+    Install-WinGetPackage 'Git.Git' -Scope 'machine' `
+        -Custom (@(
+            # Enable additional components which are not part of the installer's defaults, namely
+            # creating a Git Bash desktop shortcut, enabling daily Git for Windows update checks,
+            # and adding a Git Bash profile to Windows Terminal
+            # Default: '/COMPONENTS=ext,ext\shellhere,ext\guihere,gitlfs,assoc,assoc_sh,scalar'
+            '/COMPONENTS=icons,icons\desktop,ext,ext\shellhere,ext\guihere,gitlfs,assoc,assoc_sh,autoupdate,windowsterminal,scalar'
+            # Set the default branch name for new repositories to 'main'
+            '/o:DefaultBranchOption=main'
+            # Enable symbolic link sypport
+            '/o:EnableSymlinks=Enabled'
+        ) -join ' ')
     git config --global user.name 'Christopher Cheng'
     git config --global user.email 'chris@ccjk.dev'
     git config --global core.editor "'$env:LOCALAPPDATA\Programs\Zed\bin\zed' --wait"
