@@ -1,0 +1,9 @@
+[tools]
+powershell = "latest"
+codex = "latest"
+node = "lts"
+"npm:@agentclientprotocol/codex-acp" = "latest"  # `node` is a runtime dependency
+
+[settings]
+auto_update = true
+minimum_release_age = "3d"
