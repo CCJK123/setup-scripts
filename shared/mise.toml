@@ -3,6 +3,18 @@ powershell = "latest"
 codex = "latest"
 node = "lts"
 "npm:@agentclientprotocol/codex-acp" = "latest"  # `node` is a runtime dependency
+flyctl = "latest"
+
+[tools."http:sprite"]
+version = "latest"
+url = 'https://sprites-binaries.t3.storage.dev/client/{{ version }}/sprite-{{ os() }}-{{ arch(x64="x86_64", arm64="aarch64") }}{{ os(windows=".exe", linux="", macos="") }}'
+version_list_url = "https://sprites-binaries.t3.storage.dev/client/latest"
+checksum_url = "https://sprites-binaries.t3.storage.dev/client/{{ version }}/manifest.json"
+checksum_expr = '''
+let vendor_arch = arch == "x64" ? "x86_64" : arch == "arm64" ? "aarch64" : arch;
+let entry = fromJSON(body).platforms[os + "-" + vendor_arch];
+entry.hash + ":" + entry.digest
+'''
 
 [settings]
 auto_update = true
