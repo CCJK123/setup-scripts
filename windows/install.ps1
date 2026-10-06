@@ -185,7 +185,8 @@ function Main {
 }
 
 
-# Refresh PATH for this script, then restore the caller's original PATH.
+# Snapshot the original session PATH in order to restore it at the end of script execution
+# This is so that session PATH changes within the script are kept ephemeral
 $originalPath = $env:Path
 try {
     Main
