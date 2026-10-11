@@ -17,5 +17,5 @@ entry.hash + ":" + entry.digest
 '''
 
 [settings]
-auto_update = true
+self_update.auto = true
 minimum_release_age = "3d"
