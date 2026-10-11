@@ -1,6 +1,7 @@
 [tools]
 powershell = "latest"
 codex = "latest"
+gh = "latest"
 node = "lts"
 "npm:@agentclientprotocol/codex-acp" = "latest"  # `node` is a runtime dependency
 flyctl = "latest"
