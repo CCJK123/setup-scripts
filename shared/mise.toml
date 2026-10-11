@@ -19,3 +19,9 @@ entry.hash + ":" + entry.digest
 [settings]
 self_update.auto = true
 minimum_release_age = "3d"
+tool_update.global_auto = true
+
+# TODO: Re-enable once the Windows updater no longer opens a terminal window
+# whose closure stops the service: https://github.com/jdx/mise/issues/14313
+# [bootstrap.services.mise-tool-update]
+# builtin = "tool-update"

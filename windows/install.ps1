@@ -168,6 +168,15 @@ function Main {
         throw "Failed to install mise tools (exit code $LASTEXITCODE)."
     }
 
+    # Apply mise services (currently just for enabling automatic mise tool updates)
+    # TODO: Re-enable once the Windows updater no longer opens a terminal window
+    # whose closure stops the service: https://github.com/jdx/mise/issues/14313
+    # Write-Host 'Applying mise services...'
+    # mise --cd $miseConfigDirectory bootstrap services apply --yes
+    # if ($LASTEXITCODE -ne 0) {
+    #     throw "Failed to apply mise services (exit code $LASTEXITCODE)."
+    # }
+
     # Add mise shim path to both the current user's and the current session's PATH
     # This is so mise tools are still available in non-interactive contexts
     $miseShimPath = Join-Path $env:LOCALAPPDATA 'mise\shims'
