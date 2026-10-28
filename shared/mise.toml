@@ -5,6 +5,7 @@ gh = "latest"
 node = "lts"
 "npm:@agentclientprotocol/codex-acp" = "latest"  # `node` is a runtime dependency
 flyctl = "latest"
+yt-dlp = { version = "latest", lazy = true }
 
 [tools."http:sprite"]
 version = "latest"
