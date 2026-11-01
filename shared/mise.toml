@@ -1,12 +1,21 @@
 [tools]
-powershell = "latest"
-codex = "latest"
-gh = "latest"
+# Programming language runtimes
 node = "lts"
-"npm:@agentclientprotocol/codex-acp" = "latest"  # `node` is a runtime dependency
-flyctl = "latest"
+
+# Developer tools
+powershell = "latest"
+gh = "latest"
+flyctl = "latest"     # See also `sprite`, configured separately below
+
+# AI coding agents and integrations
+codex = "latest"
+"npm:@agentclientprotocol/codex-acp" = "latest" # `node` is a runtime dependency
+oh-my-pi = "latest"
+
+# Miscellaneous
 yt-dlp = { version = "latest", lazy = true }
 
+# Other tools not currently available via the mise registry
 [tools."http:sprite"]
 version = "latest"
 url = 'https://sprites-binaries.t3.storage.dev/client/{{ version }}/sprite-{{ os() }}-{{ arch(x64="x86_64", arm64="aarch64") }}{{ os(windows=".exe", linux="", macos="") }}'
@@ -18,10 +27,12 @@ let entry = fromJSON(body).platforms[os + "-" + vendor_arch];
 entry.hash + ":" + entry.digest
 '''
 
+
 [settings]
 self_update.auto = true
 minimum_release_age = "3d"
 tool_update.global_auto = true
+
 
 # TODO: Re-enable once the Windows updater no longer opens a terminal window
 # whose closure stops the service: https://github.com/jdx/mise/issues/14313
