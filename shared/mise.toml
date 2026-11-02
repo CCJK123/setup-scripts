@@ -1,6 +1,9 @@
 [tools]
 # Programming language runtimes
 node = "lts"
+rust = { version = "latest", components = [
+  "rust-src", # Pre-install standard-library sources for later use by rust-analyzer
+] }
 
 # Developer tools
 powershell = "latest"
@@ -32,6 +35,7 @@ entry.hash + ":" + entry.digest
 self_update.auto = true
 minimum_release_age = "3d"
 tool_update.global_auto = true
+idiomatic_version_file_enable_tools = ["rust"]
 
 
 # TODO: Re-enable once the Windows updater no longer opens a terminal window
