@@ -177,13 +177,36 @@ function Main {
     #     throw "Failed to apply mise services (exit code $LASTEXITCODE)."
     # }
 
-    # Add mise shim path to both the current user's and the current session's PATH
-    # This is so mise tools are still available in non-interactive contexts
-    $miseShimPath = Join-Path $env:LOCALAPPDATA 'mise\shims'
-    $existingUserPath = [Environment]::GetEnvironmentVariable('Path', 'User')
-    if (($existingUserPath -split ';' | ForEach-Object { $_.TrimEnd('\') }) -notcontains $miseShimPath) {
-        [Environment]::SetEnvironmentVariable('Path', "$miseShimPath;$existingUserPath".TrimEnd(';'), 'User')
-        Write-Host "Added mise shims to the current user's PATH."
+    # Selectively add certain mise global tool paths to both the current user's and the current session's PATH
+    <#
+    Generally when using mise, prefer using shell activation (i.e. `mise activate`, for tools meant
+    to be run in an interactive terminal) or shims (i.e. `mise activate --shims`, for tools that are
+    depended on by other software which require a stable path to the tool / the tool to be available
+    in non-interactive contexts) for running mise-installed tools.
+
+    Only when neither of these approaches is sufficient should mise global tool paths be added to
+    the current user's PATH, and only for the tools that require it, so as to avoid polluting the
+    current user/session's PATH with shims for all installed tools, which can include tools that are
+    not meant to be run in the current context (i.e. project-specific, non-globally installed tools).
+    The tools which fulfil this criteria are listed below.
+
+    For more info see https://mise.jdx.dev/ide-integration.html#global-version-link.
+    #>
+    Write-Host "Adding selected mise tools to the current user's PATH..."
+    # Paths are relative to mise's installs directory and must directly contain the executables.
+    $miseGlobalBinPaths = @(
+        'powershell\global' # Zed's PowerShell language server can only discover `pwsh` through PATH in select cases
+    )
+    foreach ($relativePath in $miseGlobalBinPaths) {
+        $miseToolPath = Join-Path $env:LOCALAPPDATA "mise\installs\$relativePath"
+        if (-not (Test-Path -LiteralPath $miseToolPath -PathType Container)) {
+            throw "Mise global tool directory not found: $miseToolPath"
+        }
+        $existingUserPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+        if (($existingUserPath -split ';' | ForEach-Object { $_.TrimEnd('\') }) -notcontains $miseToolPath) {
+            [Environment]::SetEnvironmentVariable('Path', "$existingUserPath;$miseToolPath".TrimStart(';'), 'User')
+            Write-Host "Added mise global tool path ($miseToolPath) to the current user's PATH."
+        }
     }
     Refresh-SessionPath
 

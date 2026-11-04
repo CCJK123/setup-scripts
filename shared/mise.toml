@@ -6,7 +6,7 @@ rust = { version = "latest", components = [
 ] }
 
 # Developer tools
-powershell = "latest"
+powershell = "latest" # PowerShell 7+ required for Zed's PowerShell language server to work
 gh = "latest"
 flyctl = "latest"     # See also `sprite`, configured separately below
 
