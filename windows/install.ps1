@@ -142,8 +142,13 @@ function Main {
     # Steam
     Install-WinGetPackage 'Valve.Steam'
 
-    # mise
-    Install-WinGetPackage 'jdx.mise'
+    Write-Host 'WinGet packages installed successfully.'
+
+    # ---
+
+    # Install mise
+    Write-Host 'Installing mise standalone...'
+    Invoke-RestMethod -Uri 'https://mise.run/powershell' | Invoke-Expression
 
     Write-Host 'Configuring mise...'
 
