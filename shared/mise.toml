@@ -17,6 +17,7 @@ oh-my-pi = "latest"
 
 # Miscellaneous
 yt-dlp = { version = "latest", lazy = true }
+typst = { version = "latest", lazy = true }
 
 # Other tools not currently available via the mise registry
 [tools."http:sprite"]
